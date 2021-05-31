@@ -118,7 +118,7 @@ def count_labels():
 def rename_file():
 
     # 현재 위치(.)의 파일을 모두 가져온다.
-    path = 'E:/Yolo_mark-master/x64/Release/data/img/'
+    path = 'E:/Yolo_mark-master/x64/Release/data/'
     # path = 'Z:/Define_dataset/'
     # path = 'C:/Users/USER/Desktop/Etri/Capture/10프레임_rename/'
     # respath = "/home/ljm/darknet/obj/MOT16-02/train.list"
@@ -131,6 +131,7 @@ def rename_file():
                 for filename in os.listdir(path+folder+'/'):
                     # 파일 확장자가 (properties)인 것만 처리
                     # if filename.endswith("png"):
+                    new_filename = ""
                     try:
                         number = int(filename.split('_')[1][0:-4])
                         # if number == cnt:
