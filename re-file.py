@@ -143,7 +143,8 @@ def rename_file():
                         cnt +=1
                     except:
                         print('에러.',path+folder+'/'+filename, '->' ,path+folder+'/'+new_filename)
-                        sys.exit()
+                        cnt = total+1
+                        continue
 if __name__ == "__main__":
     # make_train_file()
     rename_file()
