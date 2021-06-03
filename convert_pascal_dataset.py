@@ -5,6 +5,8 @@ import os
 xml_path = "E:/TrainVal/VOCdevkit/VOC2011/Annotations/"
 txt_path = "E:/TrainVal/VOCdevkit/VOC2011/YoloAnnotations/"
 
+
+
 finding_label = {"person": 0, "dog": 3, "cat": 2, "chair": 5, "diningtable": 8, "sofa": 4, "tvmonitor": 7, "head":10}
 def convert_xml_2_txt():
     for xml_file in os.listdir(xml_path):
