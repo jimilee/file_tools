@@ -19,7 +19,7 @@ def convert_xml_2_txt():
         img_width = int(img_size[0].find("width").text)
         img_height = int(img_size[0].find("height").text)
 
-        print(img_size)
+        print(img_width, img_height)
 
         for tag in root.iter("object"):
             if tag.find("name").text in finding_label.keys():
