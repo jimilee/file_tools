@@ -24,9 +24,12 @@ for folder_name in os.listdir(path):
 
             # 파일 확장자가 (properties)인 것만 처리
             if img_file.endswith("jpg"):
+                #yolov5 detector
                 results = model(path + folder_name + '/' + img_file)
+                #face recpgmotion
                 image = face_recognition.load_image_file(path + folder_name + '/' + img_file)
                 face_locations = face_recognition.face_locations(image) #(top, right, bottom, left)
+                # append face boxes
                 for face_data in face_locations:
                     top, right, bottom, left = face_locations[0]
                     cx = left + ((right-left)/2)
@@ -37,7 +40,7 @@ for folder_name in os.listdir(path):
                         float(cy/(image.shape[0])),
                         float((right-left)/image.shape[1]),
                         float((bottom-top)/image.shape[0])))
-
+                # append detection boxes
                 for pred_data in results.xywhn[0].tolist():
                     x1,y1,w,h, conf, cls = pred_data
                     if str(cls) in finding_label.keys():
