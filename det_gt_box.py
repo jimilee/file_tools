@@ -5,7 +5,8 @@ from tqdm import tqdm
 
 # Model
 model = torch.hub.load('ultralytics/yolov5', 'yolov5x')
-
+# if torch.cuda.is_available():
+#     model = model.cuda()
 # Image Path
 # path = 'E:/Yolo_mark-master/x64/Release/data/'
 path = 'E:/Yolo_mark-master/x64/Release/data/det/'
@@ -23,7 +24,7 @@ for folder_name in os.listdir(path):
             # print(path + folder_name + '/'+img_file[0:-4]+'.txt')
 
             # 파일 확장자가 (properties)인 것만 처리
-            if img_file.endswith("png"):
+            if img_file.endswith("png") or img_file.endswith("jpg"):
                 #yolov5 detector
                 results = model(path + folder_name + '/' + img_file)
                 #face recpgmotion
