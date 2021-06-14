@@ -5,7 +5,7 @@ import sys
 #각종 학습 데이터 파일들 가공을 위한 메소드들 모음집. -지미
 def modify_gt_file():
     # 현재 위치(.)의 파일을 모두 가져온다.
-    path = 'Z:/Define_dataset/DT/'
+    path = 'E:/Yolo_mark-master/x64/Release/data/modify/'
     for folder in os.listdir(path):
         print(path + folder + '/')
         for filename in os.listdir(path + folder + '/'):
@@ -16,18 +16,22 @@ def modify_gt_file():
                     if label == '80': #fire
                         label = '1'
                         sys.stdout.write(' '.join([label, cx, cy, w, h]))
-                    elif label == '0': #person
-                        label = '0'
+                    # if label == '5': #chair
+                    #     continue
+                    else:
                         sys.stdout.write(' '.join([label, cx, cy, w, h]))
-                    elif label == '81': #face
-                        label = '10'
-                        sys.stdout.write(' '.join([label, cx, cy, w, h]))
-                    elif label == '15': #cat
-                        label = '2'
-                        sys.stdout.write(' '.join([label, cx, cy, w, h]))
-                    elif label == '16': #dog
-                        label = '3'
-                        sys.stdout.write(' '.join([label, cx, cy, w, h]))
+                    # elif label == '0': #person
+                    #     label = '0'
+                    #     sys.stdout.write(' '.join([label, cx, cy, w, h]))
+                    # elif label == '81': #face
+                    #     label = '10'
+                    #     sys.stdout.write(' '.join([label, cx, cy, w, h]))
+                    # elif label == '15': #cat
+                    #     label = '2'
+                    #     sys.stdout.write(' '.join([label, cx, cy, w, h]))
+                    # elif label == '16': #dog
+                    #     label = '3'
+                    #     sys.stdout.write(' '.join([label, cx, cy, w, h]))
 
 def make_train_file():
     cnt = 0
@@ -95,7 +99,7 @@ def make_list_file():
 def count_labels():
     cnt = {}
     # 현재 위치(.)의 파일을 모두 가져온다.
-    path = 'Z:/Define_dataset/'
+    path = 'Z:/Define_dataset/IR/IR/'
     # path = 'E:/Yolo_mark-master/x64/Release/data/test/'
     # path = 'C:/Users/USER/Desktop/Etri/Capture/10프레임_rename/'
     # respath = "/home/ljm/darknet/obj/MOT16-02/train.list"
@@ -118,9 +122,9 @@ def count_labels():
 def rename_file():
 
     # 현재 위치(.)의 파일을 모두 가져온다.
-    path = 'E:/Yolo_mark-master/x64/Release/data/'
+    # path = 'E:/Yolo_mark-master/x64/Release/data/'
     # path = 'Z:/Define_dataset/'
-    # path = 'C:/Users/USER/Desktop/Etri/Capture/10프레임_rename/'
+    path = 'E:/Yolo_mark-master/x64/Release/data/률/refile/'
     # respath = "/home/ljm/darknet/obj/MOT16-02/train.list"
     # fw = open(respath, 'a', encoding='utf-8')
     for folder in os.listdir(path):
