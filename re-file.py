@@ -3,6 +3,8 @@ import os
 import fileinput
 import sys
 #각종 학습 데이터 파일들 가공을 위한 메소드들 모음집. -지미
+# target labels.  #person   #dog    #cat     #chair   #table   #sofa     #tv     #refreg    #phone
+finding_label = {'0': "person",'1' : "fire",'2': "cat", '3': "dog", '4': "sofa",  '5': "chair", '6' : "refreg",'7': "tv",  '8': "table",  '9' : "phone",  '10' : "face"}
 def modify_gt_file():
     # 현재 위치(.)의 파일을 모두 가져온다.
     path = 'E:/Yolo_mark-master/x64/Release/data/modify/'
@@ -99,7 +101,7 @@ def make_list_file():
 def count_labels():
     cnt = {}
     # 현재 위치(.)의 파일을 모두 가져온다.
-    path = 'Z:/Define_dataset/IR/IR/'
+    path = 'Z:/Define_dataset/'
     # path = 'E:/Yolo_mark-master/x64/Release/data/test/'
     # path = 'C:/Users/USER/Desktop/Etri/Capture/10프레임_rename/'
     # respath = "/home/ljm/darknet/obj/MOT16-02/train.list"
@@ -114,17 +116,18 @@ def count_labels():
             if txt_file.endswith("txt"):
                 for line in open(path + folder_name + '/' + txt_file, mode='rt',encoding='utf-8'):
                     label, cx, cy, w, h = line.split(' ')
+                    if label == '81': label = '1'
                     try:
-                        cnt[tag+str(label)]+=1
+                        cnt[str(tag+finding_label[str(label)])]+=1
                     except:
-                        cnt.update({tag+str(label):0})
+                        cnt.update({str(tag+finding_label[str(label)]):0})
     print(cnt)
 def rename_file():
 
     # 현재 위치(.)의 파일을 모두 가져온다.
     # path = 'E:/Yolo_mark-master/x64/Release/data/'
     # path = 'Z:/Define_dataset/'
-    path = 'E:/Yolo_mark-master/x64/Release/data/률/refile/'
+    path = 'E:/Yolo_mark-master/x64/Release/data/IR_homcam/'
     # respath = "/home/ljm/darknet/obj/MOT16-02/train.list"
     # fw = open(respath, 'a', encoding='utf-8')
     for folder in os.listdir(path):
