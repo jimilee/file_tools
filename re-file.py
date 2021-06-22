@@ -7,7 +7,7 @@ import sys
 finding_label = {'0': "person",'1' : "fire",'2': "cat", '3': "dog", '4': "sofa",  '5': "chair", '6' : "refreg",'7': "tv",  '8': "table",  '9' : "phone",  '10' : "face"}
 def modify_gt_file():
     # 현재 위치(.)의 파일을 모두 가져온다.
-    path = 'E:/Yolo_mark-master/x64/Release/data/modify/'
+    path = 'Z:/Define_dataset/IR/새 폴더/'
     for folder in os.listdir(path):
         print(path + folder + '/')
         for filename in os.listdir(path + folder + '/'):
@@ -101,7 +101,7 @@ def make_list_file():
 def count_labels():
     cnt = {}
     # 현재 위치(.)의 파일을 모두 가져온다.
-    path = 'Z:/Define_dataset/'
+    path = 'Z:/Define_dataset/IR/'
     # path = 'E:/Yolo_mark-master/x64/Release/data/test/'
     # path = 'C:/Users/USER/Desktop/Etri/Capture/10프레임_rename/'
     # respath = "/home/ljm/darknet/obj/MOT16-02/train.list"
@@ -116,7 +116,7 @@ def count_labels():
             if txt_file.endswith("txt"):
                 for line in open(path + folder_name + '/' + txt_file, mode='rt',encoding='utf-8'):
                     label, cx, cy, w, h = line.split(' ')
-                    if label == '81': label = '1'
+                    if label == '81': print(txt_file)
                     try:
                         cnt[str(tag+finding_label[str(label)])]+=1
                     except:
@@ -127,7 +127,7 @@ def rename_file():
     # 현재 위치(.)의 파일을 모두 가져온다.
     # path = 'E:/Yolo_mark-master/x64/Release/data/'
     # path = 'Z:/Define_dataset/'
-    path = 'E:/Yolo_mark-master/x64/Release/data/IR_homcam/'
+    path = 'E:/Yolo_mark-master/x64/Release/data/IR_homcam/New/'
     # respath = "/home/ljm/darknet/obj/MOT16-02/train.list"
     # fw = open(respath, 'a', encoding='utf-8')
     for folder in os.listdir(path):
@@ -154,8 +154,8 @@ def rename_file():
                         continue
 if __name__ == "__main__":
     # make_train_file()
-    # rename_file()
+    rename_file()
     # check_filename()
     # make_list_file()
     # modify_gt_file()
-    count_labels()
+    # count_labels()
