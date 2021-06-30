@@ -127,15 +127,19 @@ def rename_file():
     # 현재 위치(.)의 파일을 모두 가져온다.
     # path = 'E:/Yolo_mark-master/x64/Release/data/'
     # path = 'Z:/Define_dataset/'
-    path = 'E:/Yolo_mark-master/x64/Release/data/IR_homcam/New/'
+    path = 'E:/Yolo_mark-master/x64/Release/data/새 폴더/'
     # respath = "/home/ljm/darknet/obj/MOT16-02/train.list"
     # fw = open(respath, 'a', encoding='utf-8')
     for folder in os.listdir(path):
         cnt = 0
+        print(folder)
         if os.path.isdir(path+folder+'/'):
             total = len(os.listdir(path+folder+'/'))
             while cnt < total:
                 for filename in os.listdir(path+folder+'/'):
+                    if not filename.split('_')[0] == 'image':
+                        cnt = total+1
+                        break
                     # 파일 확장자가 (properties)인 것만 처리
                     # if filename.endswith("png"):
                     new_filename = ""
@@ -150,8 +154,9 @@ def rename_file():
                         cnt +=1
                     except:
                         print('에러.',path+folder+'/'+filename, '->' ,path+folder+'/'+new_filename)
-                        cnt = total+1
+                        cnt +=1
                         continue
+        else: continue
 if __name__ == "__main__":
     # make_train_file()
     rename_file()
