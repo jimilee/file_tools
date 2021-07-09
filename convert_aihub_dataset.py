@@ -2,8 +2,8 @@ import json
 import os
 from tqdm import tqdm
 
-json_path = "E:/AI_hub/반려동물 구분을 위한 동물 영상/Training/라벨링데이터_1/"
-src_path = "E:/AI_hub/반려동물 구분을 위한 동물 영상/Training/원천데이터_1/"
+json_path = "E:/AI_hub/반려동물 구분을 위한 동물 영상/Training/라벨링데이터_8/"
+src_path = "E:/AI_hub/반려동물 구분을 위한 동물 영상/Training/원천데이터_8/"
 
 finding_label = {"DOG": 3, "CAT": 2}
 

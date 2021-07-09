@@ -4,6 +4,8 @@ import fileinput
 import sys
 #각종 학습 데이터 파일들 가공을 위한 메소드들 모음집. -지미
 # target labels.  #person   #dog    #cat     #chair   #table   #sofa     #tv     #refreg    #phone
+from tqdm import tqdm
+
 finding_label = {'0': "person",'1' : "fire",'2': "cat", '3': "dog", '4': "sofa",  '5': "chair", '6' : "refreg",'7': "tv",  '8': "table",  '9' : "phone",  '10' : "face"}
 def modify_gt_file():
     # 현재 위치(.)의 파일을 모두 가져온다.
@@ -101,7 +103,7 @@ def make_list_file():
 def count_labels():
     cnt = {}
     # 현재 위치(.)의 파일을 모두 가져온다.
-    path = 'Z:/Define_dataset/IR/'
+    path = 'Z:/Define_dataset/'
     # path = 'E:/Yolo_mark-master/x64/Release/data/test/'
     # path = 'C:/Users/USER/Desktop/Etri/Capture/10프레임_rename/'
     # respath = "/home/ljm/darknet/obj/MOT16-02/train.list"
@@ -127,40 +129,46 @@ def rename_file():
     # 현재 위치(.)의 파일을 모두 가져온다.
     # path = 'E:/Yolo_mark-master/x64/Release/data/'
     # path = 'Z:/Define_dataset/'
-    path = 'E:/Yolo_mark-master/x64/Release/data/새 폴더/'
+    path = 'E:/AI_hub/반려동물 구분을 위한 동물 영상/Training/원천데이터_8/'
     # respath = "/home/ljm/darknet/obj/MOT16-02/train.list"
     # fw = open(respath, 'a', encoding='utf-8')
-    for folder in os.listdir(path):
+    for folder in tqdm(os.listdir(path)):
         cnt = 0
-        print(folder)
+        if folder.endswith(".mp4"):
+            folder_id = folder.split('-')[2][0:-4]
+        else:
+            folder_id = folder.split('-')[2]
+        # print(folder.split('-')[2][0:-4])
         if os.path.isdir(path+folder+'/'):
             total = len(os.listdir(path+folder+'/'))
             while cnt < total:
                 for filename in os.listdir(path+folder+'/'):
-                    if not filename.split('_')[0] == 'image':
+                    # print(filename)
+                    if not filename.split('_')[0] == 'frame':
                         cnt = total+1
-                        break
-                    # 파일 확장자가 (properties)인 것만 처리
-                    # if filename.endswith("png"):
-                    new_filename = ""
-                    try:
-                        number = int(filename.split('_')[1][0:-4])
-                        # if number == cnt:
-                        # 파일명에서 AA를 BB로 변경하고 파일명 수정
-                        new_filename = "{0:04}".format(number) #depth_{0} image_{0:08d}_0
-                        new_filename = folder + "_" + new_filename + filename[-4:]
-                        print(new_filename)
-                        os.rename(path+folder+'/'+filename, path+folder+'/'+new_filename)
-                        cnt +=1
-                    except:
-                        print('에러.',path+folder+'/'+filename, '->' ,path+folder+'/'+new_filename)
-                        cnt +=1
                         continue
+                    else:
+                        new_filename = ""
+                        try:
+                            # number = int(filename.split('_')[1][0:-4])
+                            # if number == cnt:
+                            # 파일명에서 AA를 BB로 변경하고 파일명 수정
+                            # new_filename = "{0:04}".format(number) #depth_{0} image_{0:08d}_0 ##
+                            new_filename = filename
+
+                            new_filename = folder_id + "_" + new_filename
+                            # print(new_filename)
+                            os.rename(path+folder+'/'+filename, path+folder+'/'+new_filename)
+                            cnt +=1
+                        except:
+                            print('에러.',path+folder+'/'+filename, '->' ,path+folder+'/'+new_filename)
+                            cnt +=1
+                            continue
         else: continue
 if __name__ == "__main__":
     # make_train_file()
-    rename_file()
+    # rename_file()
     # check_filename()
     # make_list_file()
     # modify_gt_file()
-    # count_labels()
+    count_labels()
