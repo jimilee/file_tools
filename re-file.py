@@ -7,21 +7,28 @@ import sys
 from tqdm import tqdm
 
 finding_label = {'0': "person",'1' : "fire",'2': "cat", '3': "dog", '4': "sofa",  '5': "chair", '6' : "refreg",'7': "tv",  '8': "table",  '9' : "phone",  '10' : "face"}
+finding_label_fin = {'0': "person",'1' : "fire",'2': "cat", '3': "dog", '4': "chair", '5': "tv",  '6' : "phone",  '7' : "face"}
+remove_label = {'4': "sofa",  '6' : "refreg",  '8': "table"}
 def modify_gt_file():
     # 현재 위치(.)의 파일을 모두 가져온다.
-    path = 'Z:/Define_dataset/IR/새 폴더/'
+    path = 'E:/디파인/'
     for folder in os.listdir(path):
         print(path + folder + '/')
-        for filename in os.listdir(path + folder + '/'):
+        for filename in tqdm(os.listdir(path + folder + '/')):
             # 파일 확장자가 (properties)인 것만 처리
             if filename.endswith("txt"):
                 for line in fileinput.input(path + folder + '/' + filename, inplace=True):
                     label, cx, cy, w, h = line.split(' ')
-                    if label == '80': #fire
-                        label = '1'
-                        sys.stdout.write(' '.join([label, cx, cy, w, h]))
-                    # if label == '5': #chair
-                    #     continue
+                    if label in remove_label.keys():
+                        continue
+                    if label == '5': #chair
+                        sys.stdout.write(' '.join(['4', cx, cy, w, h]))
+                    elif label == '7': #tv
+                        sys.stdout.write(' '.join(['5', cx, cy, w, h]))
+                    elif label == '9': #phone
+                        sys.stdout.write(' '.join(['6', cx, cy, w, h]))
+                    elif label == '10': #face
+                        sys.stdout.write(' '.join(['7', cx, cy, w, h]))
                     else:
                         sys.stdout.write(' '.join([label, cx, cy, w, h]))
                     # elif label == '0': #person
@@ -103,7 +110,7 @@ def make_list_file():
 def count_labels():
     cnt = {}
     # 현재 위치(.)의 파일을 모두 가져온다.
-    path = 'Z:/Define_dataset/'
+    path = 'Z:/Define_dataset/IR/'
     # path = 'E:/Yolo_mark-master/x64/Release/data/test/'
     # path = 'C:/Users/USER/Desktop/Etri/Capture/10프레임_rename/'
     # respath = "/home/ljm/darknet/obj/MOT16-02/train.list"
@@ -120,45 +127,46 @@ def count_labels():
                     label, cx, cy, w, h = line.split(' ')
                     if label == '81': print(txt_file)
                     try:
-                        cnt[str(tag+finding_label[str(label)])]+=1
+                        cnt[str(tag+finding_label_fin[str(label)])]+=1
                     except:
-                        cnt.update({str(tag+finding_label[str(label)]):0})
+                        cnt.update({str(tag+finding_label_fin[str(label)]):0})
     print(cnt)
 def rename_file():
 
     # 현재 위치(.)의 파일을 모두 가져온다.
     # path = 'E:/Yolo_mark-master/x64/Release/data/'
     # path = 'Z:/Define_dataset/'
-    path = 'E:/AI_hub/반려동물 구분을 위한 동물 영상/Training/원천데이터_8/'
+    path = 'E:/Yolo_mark-master/x64/Release/data/유튜브/'
     # respath = "/home/ljm/darknet/obj/MOT16-02/train.list"
     # fw = open(respath, 'a', encoding='utf-8')
     for folder in tqdm(os.listdir(path)):
         cnt = 0
-        if folder.endswith(".mp4"):
-            folder_id = folder.split('-')[2][0:-4]
-        else:
-            folder_id = folder.split('-')[2]
+        # if folder.endswith(".mp4"):
+        #     folder_id = folder.split('-')[2][0:-4]
+        # else:
+        #     folder_id = folder.split('-')[2]
         # print(folder.split('-')[2][0:-4])
         if os.path.isdir(path+folder+'/'):
             total = len(os.listdir(path+folder+'/'))
             while cnt < total:
                 for filename in os.listdir(path+folder+'/'):
                     # print(filename)
-                    if not filename.split('_')[0] == 'frame':
+                    if not filename.split('_')[0] == 'image':
                         cnt = total+1
                         continue
                     else:
                         new_filename = ""
                         try:
-                            # number = int(filename.split('_')[1][0:-4])
+                            number = int(filename.split('_')[1][0:-4])
                             # if number == cnt:
                             # 파일명에서 AA를 BB로 변경하고 파일명 수정
-                            # new_filename = "{0:04}".format(number) #depth_{0} image_{0:08d}_0 ##
-                            new_filename = filename
+                            new_filename = "{0:04}".format(number) #depth_{0} image_{0:08d}_0 ##
+                            # new_filename = filename
 
-                            new_filename = folder_id + "_" + new_filename
+                            new_filename = folder + "_" + new_filename
                             # print(new_filename)
-                            os.rename(path+folder+'/'+filename, path+folder+'/'+new_filename)
+                            # os.rename(path+folder+'/'+filename, path+folder+'/'+new_filename)
+                            os.rename(path+folder+'/'+filename, path+folder+'/'+filename + '.jpg')
                             cnt +=1
                         except:
                             print('에러.',path+folder+'/'+filename, '->' ,path+folder+'/'+new_filename)
