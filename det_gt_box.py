@@ -4,16 +4,16 @@ import face_recognition
 from tqdm import tqdm
 
 # Model
-model = torch.hub.load('ultralytics/yolov5', 'yolov5l', pretrained=True)
+model = torch.hub.load('ultralytics/yolov5', 'yolov5s')
 # if torch.cuda.is_available():
 #     model = model.cuda()
 # Image Path
 # path = 'E:/_workspace/file_tools/images/'
-path = 'E:/Yolo_mark-master/x64/Release/data/유튜브/'
+path = 'E:/디파인/fire/'
 # path = 'E:/Yolo_mark-master/x64/Release/data/det/'
 # target labels.  #person   #dog    #cat     #chair   #table   #sofa     #tv     #refreg    #phone
-finding_label = {"0": 0,   "16": 3, "15": 2, "56": 5, "60": 8, "57": 4, "62": 7, "72" : 6, "67" : 9}
-# finding_label = {"16": 3, "0": 0} #"0": 0, "16": 3,  , "60": 8,  "62": 7, "72" : 6, "67" : 9 "57": 4, "15": 2
+# finding_label = {"0": 0,   "16": 3, "15": 2, "56": 5, "60": 8, "57": 4, "62": 7, "72" : 6, "67" : 9}
+finding_label = {"0": 0} #"0": 0, "16": 3,  , "60": 8,  "62": 7, "72" : 6, "67" : 9 "57": 4, "15": 2
 # Inference
 for folder_name in os.listdir(path):
     if os.path.isdir(path + folder_name + '/'): #폴더인지 확인.
