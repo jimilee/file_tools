@@ -126,7 +126,7 @@ def rename_file():
     # 현재 위치(.)의 파일을 모두 가져온다.
     # path = 'E:/Yolo_mark-master/x64/Release/data/'
     # path = 'Z:/Define_dataset/'
-    path = 'E:/Yolo_mark-master/x64/Release/data/유튜브/'
+    path = 'E:/Yolo_mark-master/x64/Release/data/교수님집화재/IR/'
     # respath = "/home/ljm/darknet/obj/MOT16-02/train.list"
     # fw = open(respath, 'a', encoding='utf-8')
     for folder in tqdm(os.listdir(path)):
@@ -140,7 +140,7 @@ def rename_file():
             total = len(os.listdir(path+folder+'/'))
             while cnt < total:
                 for filename in os.listdir(path+folder+'/'):
-                    # print(filename)
+                    print(filename.split('_')[1][0:-4])
                     if not filename.split('_')[0] == 'image':
                         cnt = total+1
                         continue
@@ -150,13 +150,14 @@ def rename_file():
                             number = int(filename.split('_')[1][0:-4])
                             # if number == cnt:
                             # 파일명에서 AA를 BB로 변경하고 파일명 수정
+
                             new_filename = "{0:04}".format(number) #depth_{0} image_{0:08d}_0 ##
                             # new_filename = filename
 
                             new_filename = folder + "_" + new_filename
                             # print(new_filename)
                             # os.rename(path+folder+'/'+filename, path+folder+'/'+new_filename)
-                            os.rename(path+folder+'/'+filename, path+folder+'/'+filename + '.jpg')
+                            os.rename(path+folder+'/'+filename, path+folder+'/'+new_filename+'.jpg')
                             cnt +=1
                         except:
                             print('에러.',path+folder+'/'+filename, '->' ,path+folder+'/'+new_filename)
@@ -165,8 +166,8 @@ def rename_file():
         else: continue
 if __name__ == "__main__":
     # make_train_file()
-    # rename_file()
+    rename_file()
     # check_filename()
     # make_list_file()
-    modify_gt_file()
+    # modify_gt_file()
     # count_labels()
