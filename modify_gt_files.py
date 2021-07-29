@@ -6,9 +6,9 @@ import sys
 remove_label = {'4': "sofa",  '6' : "refreg",  '8': "table"}
 def modify_gt_file():
     # 현재 위치(.)의 파일을 모두 가져온다.
-    path = 'E:/디파인/'
+    path = 'E:/Yolo_mark-master/x64/Release/data/img/'
     for folder in os.listdir(path):
-        print(path + folder + '/')
+        print(folder)
         for filename in tqdm(os.listdir(path + folder + '/')):
             # 파일 확장자가 (properties)인 것만 처리
             if filename.endswith("txt"):
@@ -23,6 +23,8 @@ def modify_gt_file():
                     elif label == '9': #phone
                         sys.stdout.write(' '.join(['6', cx, cy, w, h]))
                     elif label == '10': #face
-                        sys.stdout.write(' '.join(['7', cx, cy, w, h]))
+                        continue
+                        # sys.stdout.write(' '.join(['7', cx, cy, w, h]))
                     else:
                         sys.stdout.write(' '.join([label, cx, cy, w, h]))
+modify_gt_file()

@@ -19,20 +19,20 @@ def modify_gt_file():
             if filename.endswith("txt"):
                 for line in fileinput.input(path + folder + '/' + filename, inplace=True):
                     label, cx, cy, w, h = line.split(' ')
-                    label = '1'
-                    sys.stdout.write(' '.join([label, cx, cy, w, h]))
-                    # elif label == '0': #person
-                    #     label = '0'
-                    #     sys.stdout.write(' '.join([label, cx, cy, w, h]))
-                    # elif label == '81': #face
-                    #     label = '10'
-                    #     sys.stdout.write(' '.join([label, cx, cy, w, h]))
-                    # elif label == '15': #cat
-                    #     label = '2'
-                    #     sys.stdout.write(' '.join([label, cx, cy, w, h]))
-                    # elif label == '16': #dog
-                    #     label = '3'
-                    #     sys.stdout.write(' '.join([label, cx, cy, w, h]))
+                    if label in remove_label:
+                        continue
+                    elif label == '0': #person
+                        label = '0'
+                        sys.stdout.write(' '.join([label, cx, cy, w, h]))
+                    elif label == '81': #face
+                        label = '10'
+                        sys.stdout.write(' '.join([label, cx, cy, w, h]))
+                    elif label == '15': #cat
+                        label = '2'
+                        sys.stdout.write(' '.join([label, cx, cy, w, h]))
+                    elif label == '16': #dog
+                        label = '3'
+                        sys.stdout.write(' '.join([label, cx, cy, w, h]))
 
 def make_train_file():
     cnt = 0
@@ -100,33 +100,38 @@ def make_list_file():
 def count_labels():
     cnt = {}
     # 현재 위치(.)의 파일을 모두 가져온다.
-    path = 'Z:/Define_dataset/IR/'
+    path = 'Z:/Define_dataset/'
     # path = 'E:/Yolo_mark-master/x64/Release/data/test/'
     # path = 'C:/Users/USER/Desktop/Etri/Capture/10프레임_rename/'
     # respath = "/home/ljm/darknet/obj/MOT16-02/train.list"
     # fw = open(respath, 'a', encoding='utf-8')
     # total = len(os.listdir(path))
     for folder_name in os.listdir(path):
-        print(folder_name)
-        # tag = ''.join([i for i in folder_name if not i.isdigit()]) + '/'
-        tag = folder_name[0:2]+'/'
-        for txt_file in os.listdir(path+folder_name+'/'):
-            # 파일 확장자가 (properties)인 것만 처리
-            if txt_file.endswith("txt"):
-                for line in open(path + folder_name + '/' + txt_file, mode='rt',encoding='utf-8'):
-                    label, cx, cy, w, h = line.split(' ')
-                    if label == '81': print(txt_file)
-                    try:
-                        cnt[str(tag+finding_label_fin[str(label)])]+=1
-                    except:
-                        cnt.update({str(tag+finding_label_fin[str(label)]):0})
+        if os.path.isdir(path + folder_name + '/'):
+            print(folder_name)
+            # tag = ''.join([i for i in folder_name if not i.isdigit()]) + '/'
+            tag = folder_name[0:2]+'/'
+            for txt_file in os.listdir(path+folder_name+'/'):
+                # 파일 확장자가 (properties)인 것만 처리
+                if txt_file.endswith("txt"):
+                    for line in open(path + folder_name + '/' + txt_file, mode='rt',encoding='utf-8'):
+                        label, cx, cy, w, h = line.split(' ')
+                        if label == '81':
+                            print(txt_file)
+                        if not label in finding_label_fin.keys():
+                            print(txt_file, label)
+                            continue
+                        try:
+                            cnt[str(tag+finding_label_fin[str(label)])]+=1
+                        except:
+                            cnt.update({str(tag+finding_label_fin[str(label)]):0})
     print(cnt)
 def rename_file():
 
     # 현재 위치(.)의 파일을 모두 가져온다.
     # path = 'E:/Yolo_mark-master/x64/Release/data/'
     # path = 'Z:/Define_dataset/'
-    path = 'E:/Yolo_mark-master/x64/Release/data/교수님집화재/IR/'
+    path = 'E:/디파인/fireData/'
     # respath = "/home/ljm/darknet/obj/MOT16-02/train.list"
     # fw = open(respath, 'a', encoding='utf-8')
     for folder in tqdm(os.listdir(path)):
@@ -141,7 +146,7 @@ def rename_file():
             while cnt < total:
                 for filename in os.listdir(path+folder+'/'):
                     print(filename.split('_')[1][0:-4])
-                    if not filename.split('_')[0] == 'image':
+                    if filename.split('_')[0] == folder:
                         cnt = total+1
                         continue
                     else:
@@ -164,10 +169,33 @@ def rename_file():
                             cnt +=1
                             continue
         else: continue
+
+def rename_filefolder():
+    # 현재 위치(.)의 파일을 모두 가져온다.
+    path = 'E:/디파인/fireData/Fireimages/'
+    # respath = "/home/ljm/darknet/obj/MOT16-02/train.list"
+    # fw = open(respath, 'a', encoding='utf-8')
+    if os.path.isdir(path+'/'):
+        total = len(os.listdir(path+'/'))
+        cnt = 0
+        while cnt < total:
+            for filename in os.listdir(path+'/'):
+                new_filename = ""
+                try:
+                    # print(filename[3:])
+                    os.rename(path+'/'+filename, path+'/DT_fireimages'+"_{0:04}.jpg".format(cnt))
+                    cnt +=1
+                except:
+                    print('에러.',path+'/'+filename, '->' ,path+'/'+new_filename)
+                    cnt +=1
+                    continue
+
+
 if __name__ == "__main__":
     # make_train_file()
     rename_file()
     # check_filename()
     # make_list_file()
     # modify_gt_file()
-    # count_labels()
+    #count_labels()
+    #rename_filefolder()
