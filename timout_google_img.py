@@ -1,13 +1,11 @@
 import threading
-from multiprocessing import Process
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
 import urllib.request
 
 
-
-search = "indoor fire"
+search = "search keyword"
 driver = webdriver.Chrome('C:/chrome/chromedriver.exe')
 driver.get("https://www.google.co.kr/imghp?hl=ko&tab=wi&authuser=0&ogbl")
 elem = driver.find_element_by_name("q")
@@ -20,15 +18,9 @@ last_height = driver.execute_script("return document.body.scrollHeight")
 SAVE_FLAG = False
 def timeout(limit_time):
     start = time.time()
-    print(time.time() - start , "timer start.")
-    remain = 0
     while True:
-        if remain != (int)(time.time() - start) and remain%10==0 : print(limit_time - remain)
-        remain = (int)(time.time() - start)
         if time.time() - start > limit_time or SAVE_FLAG:
             raise Exception('timeout. or image saved.')
-
-
 
 while True: #검색 결과들을 스크롤해서 미리 로딩해둠.
     # Scroll down to bottom
@@ -46,7 +38,6 @@ while True: #검색 결과들을 스크롤해서 미리 로딩해둠.
 
 images = driver.find_elements_by_css_selector(".rg_i.Q4LuWd")
 count = 0
-# timer = Process(target=timeout, args=(50,))
 for image in images:
     SAVE_FLAG = False
     timer = threading.Thread(target=timeout, args=(30,))

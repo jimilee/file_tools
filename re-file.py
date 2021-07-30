@@ -11,7 +11,7 @@ finding_label_fin = {'0': "person",'1' : "fire",'2': "cat", '3': "dog", '4': "ch
 remove_label = {'4': "sofa",  '6' : "refreg",  '8': "table"}
 def modify_gt_file():
     # 현재 위치(.)의 파일을 모두 가져온다.
-    path = 'E:/디파인/fire/'
+    path = 'E:/Yolo_mark-master/x64/Release/data/img/'
     for folder in os.listdir(path):
         print(path + folder + '/')
         for filename in tqdm(os.listdir(path + folder + '/')):
@@ -19,21 +19,25 @@ def modify_gt_file():
             if filename.endswith("txt"):
                 for line in fileinput.input(path + folder + '/' + filename, inplace=True):
                     label, cx, cy, w, h = line.split(' ')
-                    if label in remove_label:
-                        continue
-                    elif label == '0': #person
+                    #if label in remove_label:
+                    #    continue
+                    if label == '0': #person
                         label = '0'
+                        continue
+                    else:
                         sys.stdout.write(' '.join([label, cx, cy, w, h]))
-                    elif label == '81': #face
-                        label = '10'
-                        sys.stdout.write(' '.join([label, cx, cy, w, h]))
-                    elif label == '15': #cat
+
+"""
+                    #elif label == '81': #face
+                    #    label = '10'
+                    #    sys.stdout.write(' '.join([label, cx, cy, w, h]))
+                    #elif label == '15': #cat
                         label = '2'
                         sys.stdout.write(' '.join([label, cx, cy, w, h]))
                     elif label == '16': #dog
                         label = '3'
                         sys.stdout.write(' '.join([label, cx, cy, w, h]))
-
+"""
 def make_train_file():
     cnt = 0
     # 현재 위치(.)의 파일을 모두 가져온다.
@@ -193,9 +197,9 @@ def rename_filefolder():
 
 if __name__ == "__main__":
     # make_train_file()
-    rename_file()
+    #rename_file()
     # check_filename()
     # make_list_file()
-    # modify_gt_file()
+    modify_gt_file()
     #count_labels()
     #rename_filefolder()
