@@ -104,7 +104,7 @@ def make_list_file():
 def count_labels():
     cnt = {}
     # 현재 위치(.)의 파일을 모두 가져온다.
-    path = 'Z:/Define_dataset/'
+    path = 'Z:/Define_dataset/IR/'
     # path = 'E:/Yolo_mark-master/x64/Release/data/test/'
     # path = 'C:/Users/USER/Desktop/Etri/Capture/10프레임_rename/'
     # respath = "/home/ljm/darknet/obj/MOT16-02/train.list"
@@ -200,6 +200,6 @@ if __name__ == "__main__":
     #rename_file()
     # check_filename()
     # make_list_file()
-    modify_gt_file()
-    #count_labels()
+    # modify_gt_file()
+    count_labels()
     #rename_filefolder()
