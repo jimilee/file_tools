@@ -3,9 +3,9 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import time
 import urllib.request
-import tqdm
 
-search = "using phone"
+
+search = "chair"
 driver = webdriver.Chrome('C:/chrome/chromedriver.exe')
 driver.get("https://www.google.co.kr/imghp?hl=ko&tab=wi&authuser=0&ogbl")
 elem = driver.find_element_by_name("q")
@@ -20,7 +20,7 @@ def timeout(limit_time):
     start = time.time()
     while True:
         if time.time() - start > limit_time or SAVE_FLAG:
-            raise Exception
+            raise Exception('timeout. or image saved.')
 
 while True: #검색 결과들을 스크롤해서 미리 로딩해둠.
     # Scroll down to bottom
@@ -38,7 +38,7 @@ while True: #검색 결과들을 스크롤해서 미리 로딩해둠.
 
 images = driver.find_elements_by_css_selector(".rg_i.Q4LuWd")
 count = 0
-for image in tqdm(images):
+for image in images:
     SAVE_FLAG = False
     timer = threading.Thread(target=timeout, args=(30,))
     try:
