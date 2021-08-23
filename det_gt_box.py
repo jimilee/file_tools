@@ -33,7 +33,7 @@ for folder_name in os.listdir(path):
                     image = face_recognition.load_image_file(path + folder_name + '/' + img_file)
                     face_locations = face_recognition.face_locations(image) #(top, right, bottom, left)
                     # append face boxes
-                    
+
                     for face_data in face_locations:
                         top, right, bottom, left = face_locations[0]
                         cx = left + ((right-left)/2)

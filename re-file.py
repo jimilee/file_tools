@@ -38,30 +38,30 @@ def modify_gt_file():
                         label = '3'
                         sys.stdout.write(' '.join([label, cx, cy, w, h]))
 """
-def make_train_file():
-    cnt = 0
-    # 현재 위치(.)의 파일을 모두 가져온다.
-    path = "/home/ljm/darknet/obj/"
-    #path = "E:/MOT16/train/"
-    respath = "/home/ljm/darknet/obj/train.txt"
-    respath2 = "/home/ljm/darknet/obj/test.txt"
-    train_fw = open(respath, 'a')
-    test_fw = open(respath2, 'a')
-    for filename in os.listdir(path):
-        #print(path + filename +"/")
-        if filename == "MOT16-10" or filename == "MOT16-09":
-            for img_name in os.listdir(path + filename + "/"):
-                if img_name.endswith("jpg"):
-                    print(path + filename + "/" + img_name)
-                    test_fw.write(path + filename + "/" + img_name + '\n')
-        else:
-            for img_name in os.listdir(path + filename + "/"):
-                if img_name.endswith("jpg"):
-                    print(path + filename + "/" + img_name)
-                    train_fw.write(path + filename + "/" + img_name + '\n')
-
-    test_fw.close()
-    train_fw.close()
+# def make_train_file():
+#     cnt = 0
+#     # 현재 위치(.)의 파일을 모두 가져온다.
+#     path = "/home/ljm/darknet/obj/"
+#     #path = "E:/MOT16/train/"
+#     respath = "/home/ljm/darknet/obj/train.txt"
+#     respath2 = "/home/ljm/darknet/obj/test.txt"
+#     train_fw = open(respath, 'a')
+#     test_fw = open(respath2, 'a')
+#     for filename in os.listdir(path):
+#         #print(path + filename +"/")
+#         if filename == "MOT16-10" or filename == "MOT16-09":
+#             for img_name in os.listdir(path + filename + "/"):
+#                 if img_name.endswith("jpg"):
+#                     print(path + filename + "/" + img_name)
+#                     test_fw.write(path + filename + "/" + img_name + '\n')
+#         else:
+#             for img_name in os.listdir(path + filename + "/"):
+#                 if img_name.endswith("jpg"):
+#                     print(path + filename + "/" + img_name)
+#                     train_fw.write(path + filename + "/" + img_name + '\n')
+#
+#     test_fw.close()
+#     train_fw.close()
 
 def check_filename():
     pre_num = 0
@@ -79,27 +79,27 @@ def check_filename():
                 print('occuluded. -- ', number)
             pre_num = number
 
-def make_list_file():
-    cnt = 0
-    # 현재 위치(.)의 파일을 모두 가져온다.
-    # 'C:/Yolo_mark - master/x64/Release/data/img/'
-    # path = 'C:/Yolo_mark-master/x64/Release/data/img/'
-    path = 'E:/Etri/Euler/'
-    respath = 'E:/Etri/Euler/list.txt'
-    fw = open(respath, 'a', encoding='utf-8')
-
-    while cnt < 276:
-        for filename in os.listdir(path):
-            # 파일 확장자가 (properties)인 것만 처리
-            if filename.endswith("png"):
-                file_number = filename.split('_')[0]
-                if cnt == int(file_number):
-                    fw.write(filename[0:-4] + '\n')
-                    print(file_number , cnt , 'matched')
-                    cnt+=1
-                    break
-
-    fw.close()
+# def make_list_file(): # 에트리 데이터셋
+#     cnt = 0
+#     # 현재 위치(.)의 파일을 모두 가져온다.
+#     # 'C:/Yolo_mark - master/x64/Release/data/img/'
+#     # path = 'C:/Yolo_mark-master/x64/Release/data/img/'
+#     path = 'E:/Etri/Euler/'
+#     respath = 'E:/Etri/Euler/list.txt'
+#     fw = open(respath, 'a', encoding='utf-8')
+#
+#     while cnt < 276:
+#         for filename in os.listdir(path):
+#             # 파일 확장자가 (properties)인 것만 처리
+#             if filename.endswith("png"):
+#                 file_number = filename.split('_')[0]
+#                 if cnt == int(file_number):
+#                     fw.write(filename[0:-4] + '\n')
+#                     print(file_number , cnt , 'matched')
+#                     cnt+=1
+#                     break
+#
+#     fw.close()
 
 def count_labels():
     cnt = {}
@@ -160,7 +160,7 @@ def rename_file():
                             # if number == cnt:
                             # 파일명에서 AA를 BB로 변경하고 파일명 수정
 
-                            new_filename = "{0:04}".format(number) #depth_{0} image_{0:08d}_0 ##
+                            new_filename = "{0:04}".format(number) #이름 {폴더명}_{0:08d}.jpg ##
                             # new_filename = filename
 
                             new_filename = folder + "_" + new_filename

@@ -5,7 +5,7 @@ import time
 import urllib.request
 
 
-search = "chair"
+search = "dog"
 driver = webdriver.Chrome('C:/chrome/chromedriver.exe')
 driver.get("https://www.google.co.kr/imghp?hl=ko&tab=wi&authuser=0&ogbl")
 elem = driver.find_element_by_name("q")
