@@ -7,11 +7,14 @@ from tqdm import tqdm
 model = torch.hub.load('ultralytics/yolov5', 'yolov5l')
 # if torch.cuda.is_available():
 #     model = model.cuda()
+
 # Image Path
 path = 'E:/Yolo_mark-master/x64/Release/data/img/'
-# path = 'E:/Yolo_mark-master/x64/Release/data/det/'
+
 # target labels.  #person   #dog    #cat     #chair    #tv     #phone
 finding_label = {"0": 0,   "16": 3, "15": 2, "56": 4, "62": 5, "67" : 6}
+
+
 #finding_label_fin = {'0': "person", '1' : "fire", '2': "cat", '3': "dog", '4': "chair", '5': "tv",  '6' : "phone",  '7' : "face"}
 finding_label_fin = {"0": 0}
 # Inference
@@ -61,6 +64,6 @@ for folder_name in os.listdir(path):
                     # results.show()  # or .show(), .save()
                 fw.close()
                 # if not target_flag: #강아지 or 고양이 없을때 삭제
-                #     os.remove(path + folder_name + '/' + img_file)
-                #     os.remove(path + folder_name + '/'+img_file[0:-4]+'.txt')
+                #     os.remove(path + folder_name + '/' + img_file) # remove image file
+                #     os.remove(path + folder_name + '/'+img_file[0:-4]+'.txt') # remove txt file
 
