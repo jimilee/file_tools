@@ -2,9 +2,11 @@
 import os
 import fileinput
 import sys
+
+from tqdm import tqdm
+
 #각종 학습 데이터 파일들 가공을 위한 메소드들 모음집. -지미
 # target labels.  #person   #dog    #cat     #chair   #table   #sofa     #tv     #refreg    #phone
-from tqdm import tqdm
 
 finding_label = {'0': "person",'1' : "fire",'2': "cat", '3': "dog", '4': "sofa",  '5': "chair", '6' : "refreg",'7': "tv",  '8': "table",  '9' : "phone",  '10' : "face"}
 finding_label_fin = {'0': "person",'1' : "fire",'2': "cat", '3': "dog", '4': "chair", '5': "tv",  '6' : "phone",  '7' : "face"}
@@ -38,7 +40,7 @@ def modify_gt_file():
                         label = '3'
                         sys.stdout.write(' '.join([label, cx, cy, w, h]))
 """
-# def make_train_file():
+# def make_train_file(): #make yolo train data list.
 #     cnt = 0
 #     # 현재 위치(.)의 파일을 모두 가져온다.
 #     path = "/home/ljm/darknet/obj/"
@@ -63,21 +65,19 @@ def modify_gt_file():
 #     test_fw.close()
 #     train_fw.close()
 
-def check_filename():
-    pre_num = 0
-    # 현재 위치(.)의 파일을 모두 가져온다.
-    # 'C:/Yolo_mark - master/x64/Release/data/img/'
-    # path = 'C:/Yolo_mark-master/x64/Release/data/img/'
-    path = 'E:/Etri/Quater/'
-    # respath = "/home/ljm/darknet/obj/MOT16-02/train.list"
-    # fw = open(respath, 'a', encoding='utf-8')
-    for filename in os.listdir(path):
-        # 파일 확장자가 (properties)인 것만 처리
-        if filename.endswith("png"):
-            number = filename.split('_')[0]
-            if number == pre_num :
-                print('occuluded. -- ', number)
-            pre_num = number
+# def check_filename(): # 에트리 데이터셋
+#     pre_num = 0
+#     # 현재 위치(.)의 파일을 모두 가져온다.
+#     path = 'E:/Etri/Quater/'
+#     # respath = "/home/ljm/darknet/obj/MOT16-02/train.list"
+#     # fw = open(respath, 'a', encoding='utf-8')
+#     for filename in os.listdir(path):
+#         # 파일 확장자가 (properties)인 것만 처리
+#         if filename.endswith("png"):
+#             number = filename.split('_')[0]
+#             if number == pre_num :
+#                 print('occuluded. -- ', number)
+#             pre_num = number
 
 # def make_list_file(): # 에트리 데이터셋
 #     cnt = 0
@@ -105,16 +105,12 @@ def count_labels():
     cnt = {}
     # 현재 위치(.)의 파일을 모두 가져온다.
     path = 'Z:/Define_dataset/IR/'
-    # path = 'E:/Yolo_mark-master/x64/Release/data/test/'
-    # path = 'C:/Users/USER/Desktop/Etri/Capture/10프레임_rename/'
-    # respath = "/home/ljm/darknet/obj/MOT16-02/train.list"
-    # fw = open(respath, 'a', encoding='utf-8')
-    # total = len(os.listdir(path))
+
     for folder_name in os.listdir(path):
         if os.path.isdir(path + folder_name + '/'):
             print(folder_name)
             # tag = ''.join([i for i in folder_name if not i.isdigit()]) + '/'
-            tag = folder_name[0:2]+'/'
+            tag = folder_name[0:2]+'/' # folder name should be start 'IR_' or 'DT_'
             for txt_file in os.listdir(path+folder_name+'/'):
                 # 파일 확장자가 (properties)인 것만 처리
                 if txt_file.endswith("txt"):
@@ -130,21 +126,14 @@ def count_labels():
                         except:
                             cnt.update({str(tag+finding_label_fin[str(label)]):0})
     print(cnt)
-def rename_file():
 
+def rename_file(): # image and txt file 이름 >> {폴더명}_{0:08d}.jpg
     # 현재 위치(.)의 파일을 모두 가져온다.
-    # path = 'E:/Yolo_mark-master/x64/Release/data/'
-    # path = 'Z:/Define_dataset/'
     path = 'E:/디파인/fireData/'
     # respath = "/home/ljm/darknet/obj/MOT16-02/train.list"
     # fw = open(respath, 'a', encoding='utf-8')
     for folder in tqdm(os.listdir(path)):
         cnt = 0
-        # if folder.endswith(".mp4"):
-        #     folder_id = folder.split('-')[2][0:-4]
-        # else:
-        #     folder_id = folder.split('-')[2]
-        # print(folder.split('-')[2][0:-4])
         if os.path.isdir(path+folder+'/'):
             total = len(os.listdir(path+folder+'/'))
             while cnt < total:
@@ -177,8 +166,6 @@ def rename_file():
 def rename_filefolder():
     # 현재 위치(.)의 파일을 모두 가져온다.
     path = 'E:/디파인/fireData/Fireimages/'
-    # respath = "/home/ljm/darknet/obj/MOT16-02/train.list"
-    # fw = open(respath, 'a', encoding='utf-8')
     if os.path.isdir(path+'/'):
         total = len(os.listdir(path+'/'))
         cnt = 0
